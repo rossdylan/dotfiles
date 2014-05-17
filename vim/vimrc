@@ -1,3 +1,7 @@
+" Most of this is stolen from eatnumber ehouse and ryansb, with some stuff
+" from spf13, Thanks!
+
+
 set nocompatible
 set rtp+=~/.vim/bundle/Vundle.vim
 
@@ -13,6 +17,9 @@ Plugin 'scrooloose/syntastic'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'tpope/vim-markdown'
+Plugin 'bling/vim-airline'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'klen/python-mode'
 call vundle#end()
 
 filetype indent plugin on
@@ -73,16 +80,19 @@ highlight clear LineNr " Current line number row will have same background color
 let g:CSApprox_hook_post = ['hi clear SignColumn']
 "highlight clear CursorLineNr " Remove highlight color from current
 "line number
-if has('statusline')
-        set laststatus=2
-        " Broken down into easily includeable segments
-        set statusline=%<%f\ " Filename
-        set statusline+=%w%h%m%r " Options
-        set statusline+=%{fugitive#statusline()} " Git Hotness
-        set statusline+=\ [%{&ff}/%Y] " Filetype
-        set statusline+=\ [%{getcwd()}] " Current dir
-        set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
-endif
+"if has('statusline')
+"        set laststatus=2
+"        " Broken down into easily includeable segments
+"        set statusline=%<%f\ " Filename
+"        set statusline+=%w%h%m%r " Options
+"        set statusline+=%{fugitive#statusline()} " Git Hotness
+"        set statusline+=\ [%{&ff}/%Y] " Filetype
+"        set statusline+=\ [%{getcwd()}] " Current dir
+"        set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
+"endif
 
 cmap w!! w !sudo tee % >/dev/null
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
+
+"Disable pymodes rope scripts
+let g:pymode_rope = 0
