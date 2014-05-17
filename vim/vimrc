@@ -12,6 +12,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'jnwhiteh/vim-golang'
+Plugin 'tpope/vim-markdown'
 call vundle#end()
 
 filetype indent plugin on
@@ -63,4 +64,25 @@ set scrolloff=5 "Keep the cursor at least 5 lines from the top and bottom
 set scrolljump=0 "Keep the cursor at least 5 lines from the top and bottom
 
 " Yank to system clipboard
+
+
 map <Leader>y "+y
+
+highlight clear SignColumn " SignColumn should match background
+highlight clear LineNr " Current line number row will have same background color in relative mode
+let g:CSApprox_hook_post = ['hi clear SignColumn']
+"highlight clear CursorLineNr " Remove highlight color from current
+"line number
+if has('statusline')
+        set laststatus=2
+        " Broken down into easily includeable segments
+        set statusline=%<%f\ " Filename
+        set statusline+=%w%h%m%r " Options
+        set statusline+=%{fugitive#statusline()} " Git Hotness
+        set statusline+=\ [%{&ff}/%Y] " Filetype
+        set statusline+=\ [%{getcwd()}] " Current dir
+        set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
+endif
+
+cmap w!! w !sudo tee % >/dev/null
+nnoremap <silent> <leader>tt :TagbarToggle<CR>
