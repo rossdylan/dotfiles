@@ -1,8 +1,8 @@
 all: vim
 
 vim:
-	@ln -sf ./vim/vimrc $(HOME)/.vimrc
-	@ln -sf ./vim/vim $(HOME)/.vim
+	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.vimrc
+	@ln -sf $(shell pwd)/vim/vim $(HOME)/.vim
 	@echo symlinked vim files
 
 clean:

@@ -10,11 +10,14 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'jnwhiteh/vim-golang'
 call vundle#end()
 
 filetype indent plugin on
 syntax on
 
+set background=light
 set hidden
 set wildmenu
 set showcmd
@@ -53,3 +56,11 @@ set listchars=nbsp:.,eol:$,tab:>-,trail:~,extends:>,precedes:<
 set list
 hi NonText guifg=#262626 ctermfg=236
 hi SpecialKey guifg=#262626 ctermfg=236
+
+inoremap jj <ESC>
+
+set scrolloff=5 "Keep the cursor at least 5 lines from the top and bottom
+set scrolljump=0 "Keep the cursor at least 5 lines from the top and bottom
+
+" Yank to system clipboard
+map <Leader>y "+y
