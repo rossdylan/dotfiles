@@ -1,0 +1,71 @@
+ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="nicoulaj"
+plugins=(git,pip,sublime,systemd,virtualenv,virtualenvwrapper,yum,zsh-syntax-highlighting)
+source $ZSH/oh-my-zsh.sh
+source /usr/bin/virtualenvwrapper.sh
+
+setopt append_history       # append history list to the history file (important for multiple parallel zsh sessions!)
+setopt extended_history     # save each command's beginning timestamp and the duration to the history file
+setopt histignorespace      # remove command lines from the history list when
+setopt auto_cd              # if a command is issued that can't be executed as a normal command,
+setopt extended_glob        # in order to use #, ~ and ^ for filename generation
+setopt longlistjobs         # display PID when suspending processes as well
+setopt notify               # report the status of backgrounds jobs immediately
+setopt hash_list_all        # Whenever a command completion is attempted, make sure \
+setopt completeinword       # not just at the end
+setopt nohup                # and don't kill them, either
+setopt auto_pushd           # make cd push the old directory onto the directory stack.
+setopt nonomatch            # try to avoid the 'zsh: no matches found...'
+setopt nobeep               # avoid "beep"ing
+setopt pushd_ignore_dups    # don't push the same dir twice.
+setopt noglobdots           # * shouldn't match dotfiles. ever.
+setopt noshwordsplit        # use zsh style word splitting
+setopt unset                # don't error out when unset parameters are used
+
+
+# Customize to your needs...
+# PATHs
+export AWS_CREDENTIAL_FILE="/etc/boto.aws.cfg"
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export EDITOR="vim"
+export GOPATH=$HOME/Projects/go
+export PATH=$PATH:$GOPATH/bin
+export PATh=$PATH:/usr/local/packer
+
+alias s="ssh"
+#git
+alias gapp="git add -p"
+alias gps="git push"
+alias gpl="git pull"
+alias gs="git status"
+alias gss="git stash show"
+alias gsp="git stash pop"
+alias gst="git stash"
+alias gsl="git stash list"
+alias gd="git diff"
+
+#task
+alias t="task"
+alias te="task edit"
+alias ta="task add"
+alias remote="ssh -X"
+alias rsync="rsync -h --progress"
+alias pypiupload="python setup.py sdist upload"
+alias lsec2="list_instances -H ID,Zone,T:name,Key,Hostname,State"
+alias irc="ssh -t losna 'screen -dx'"
+
+#colorized live log
+alias llog="sudo tail -f /var/log/messages -n46"
+if (( $+commands[ccze] )) ; then
+    alias llog="sudo tail -f /var/log/messages -n46|ccze"
+fi
+
+# simple webserver
+function server() {
+    local port="${1:-8000}"
+    open "http://localhost:${port}/"
+    python -m SimpleHTTPServer "$port"
+}
+
+
