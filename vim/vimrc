@@ -20,6 +20,10 @@ Plugin 'tpope/vim-markdown'
 Plugin 'bling/vim-airline'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'klen/python-mode'
+Plugin 'wting/rust.vim'
+Plugin 'guns/vim-clojure-static'
+Plugin 'tpope/vim-fireplace.git'
+Plugin 'kien/rainbow_parentheses.vim'
 call vundle#end()
 
 filetype indent plugin on
@@ -96,3 +100,9 @@ nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
 "Disable pymodes rope scripts
 let g:pymode_rope = 0
+
+au BufNewFile,BufRead *.rs set filetype=rust
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
