@@ -1,8 +1,16 @@
 ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="nicoulaj"
+ZSH_THEME="dstufft"
 plugins=(git,pip,sublime,systemd,virtualenv,virtualenvwrapper,yum,zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
-source /usr/bin/virtualenvwrapper.sh
+
+case $(uname) in
+    Darwin)
+        source /usr/local/bin/virtualenvwrapper.sh
+        ;;
+    Linux)
+        source /usr/bin/virtualenvwrapper.sh
+        ;;
+esac
 
 setopt append_history       # append history list to the history file (important for multiple parallel zsh sessions!)
 setopt extended_history     # save each command's beginning timestamp and the duration to the history file
@@ -27,11 +35,10 @@ setopt unset                # don't error out when unset parameters are used
 # PATHs
 export AWS_CREDENTIAL_FILE="/etc/boto.aws.cfg"
 export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUAL_ENV_DISABLE_PROMPT=1
 export EDITOR="vim"
 export GOPATH=$HOME/Projects/go
 export PATH=$PATH:$GOPATH/bin
-export PATh=$PATH:/usr/local/packer
+export PATH=$PATH:/usr/local/packer
 
 alias s="ssh"
 #git
@@ -55,11 +62,6 @@ alias pypiupload="python setup.py sdist upload"
 alias lsec2="list_instances -H ID,Zone,T:name,Key,Hostname,State"
 alias irc="ssh -t losna 'screen -dx'"
 
-#colorized live log
-alias llog="sudo tail -f /var/log/messages -n46"
-if (( $+commands[ccze] )) ; then
-    alias llog="sudo tail -f /var/log/messages -n46|ccze"
-fi
 
 # simple webserver
 function server() {
@@ -68,4 +70,5 @@ function server() {
     python -m SimpleHTTPServer "$port"
 }
 
-
+LEIN_FAST_TRAMPOLINE=y
+export LEIN_FAST_TRAMPOLINE
