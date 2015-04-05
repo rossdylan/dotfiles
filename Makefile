@@ -1,4 +1,4 @@
-all: vim zsh
+all: vim zsh tmux
 
 vim:
 	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.vimrc
@@ -12,7 +12,7 @@ zsh:
 	@echo symlinked .zshrc
 
 tmux:
-	@ln -sf $(shell pwd)/tmux/tmux.conf $(home)/.tmux.conf
+	@ln -sf $(shell pwd)/tmux/tmux.conf $(HOME)/.tmux.conf
 	@echo symlinked tmux files
 
 clean:
