@@ -11,10 +11,15 @@ zsh:
 	@ln -sf $(shell pwd)/zsh/zshrc $(HOME)/.zshrc
 	@echo symlinked .zshrc
 
+tmux:
+	@ln -sf $(shell pwd)/tmux/tmux.conf $(home)/.tmux.conf
+	@echo symlinked tmux files
+
 clean:
 	rm -f $(HOME)/.vimrc
 	rm -rf $(HOME)/.vim
 	rm -f $(HOME)/.zshrc
 	rm -rf $(HOME)/.oh-my-zsh
+	rm -rf $(HOME)/.tmux.conf
 
-.PHONY: vim zsh clean
+.PHONY: vim zsh tmux clean
