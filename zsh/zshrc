@@ -39,6 +39,7 @@ export EDITOR="vim"
 export GOPATH=$HOME/Projects/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/packer
+export PATH=$PATH:/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources
 
 alias s="ssh"
 #git
@@ -72,3 +73,24 @@ function server() {
 
 LEIN_FAST_TRAMPOLINE=y
 export LEIN_FAST_TRAMPOLINE
+
+function defcon() {
+    sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
+    sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.netbiosd.plist
+    sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.discoveryd.plist
+}
+
+function undefcon() {
+    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
+    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.netbiosd.plist
+    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.discoveryd.plist
+}
+
+
+function csh_pwstore() {
+    ssh -t helios.csh.rit.edu "./pwstore/show"
+}
+
+function csh_new_mysql_db() {
+    ssh -t root@mysql.csh.rit.edu "mysql -u root -p -e \"create database $1; grant all on $1.* to '$1'@'%';\""
+}
