@@ -1,16 +1,24 @@
-ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="dstufft"
-plugins=(git,pip,sublime,systemd,virtualenv,virtualenvwrapper,yum,zsh-syntax-highlighting)
-source $ZSH/oh-my-zsh.sh
+export TERM=xterm-256color
 
-case $(uname) in
-    Darwin)
-        source /usr/local/bin/virtualenvwrapper.sh
-        ;;
-    Linux)
-        source /usr/bin/virtualenvwrapper.sh
-        ;;
-esac
+ZSH=$HOME/.zsh
+
+autoload -Uz compinit
+compinit
+autoload -U colors && colors
+autoload -U add-zsh-hook
+
+source $ZSH/git.zsh
+source $ZSH/dstufft.zsh
+
+#case $(uname) in
+#    Darwin)
+#        source /usr/local/bin/virtualenvwrapper.sh
+#        ;;
+#    Linux)
+#        source /usr/bin/virtualenvwrapper.sh
+#        ;;
+#esac
+
 
 setopt append_history       # append history list to the history file (important for multiple parallel zsh sessions!)
 setopt extended_history     # save each command's beginning timestamp and the duration to the history file
@@ -33,34 +41,15 @@ setopt unset                # don't error out when unset parameters are used
 
 # Customize to your needs...
 # PATHs
-export AWS_CREDENTIAL_FILE="/etc/boto.aws.cfg"
 export WORKON_HOME=$HOME/.virtualenvs
 export EDITOR="vim"
-export GOPATH=$HOME/Projects/go
+export GOPATH=$HOME/src/repos/server/go
 export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:/usr/local/packer
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources
 
 alias s="ssh"
-#git
-alias gapp="git add -p"
-alias gps="git push"
-alias gpl="git pull"
-alias gs="git status"
-alias gss="git stash show"
-alias gsp="git stash pop"
-alias gst="git stash"
-alias gsl="git stash list"
-alias gd="git diff"
-
-#task
-alias t="task"
-alias te="task edit"
-alias ta="task add"
-alias remote="ssh -X"
 alias rsync="rsync -h --progress"
-alias pypiupload="python setup.py sdist upload"
-alias lsec2="list_instances -H ID,Zone,T:name,Key,Hostname,State"
 alias irc="ssh -t losna 'screen -dx'"
 
 
@@ -69,28 +58,4 @@ function server() {
     local port="${1:-8000}"
     open "http://localhost:${port}/"
     python -m SimpleHTTPServer "$port"
-}
-
-LEIN_FAST_TRAMPOLINE=y
-export LEIN_FAST_TRAMPOLINE
-
-function defcon() {
-    sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
-    sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.netbiosd.plist
-    sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.discoveryd.plist
-}
-
-function undefcon() {
-    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
-    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.netbiosd.plist
-    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.discoveryd.plist
-}
-
-
-function csh_pwstore() {
-    ssh -t helios.csh.rit.edu "./pwstore/show"
-}
-
-function csh_new_mysql_db() {
-    ssh -t root@mysql.csh.rit.edu "mysql -u root -p -e \"create database $1; grant all on $1.* to '$1'@'%';\""
 }
