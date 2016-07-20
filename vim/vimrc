@@ -11,16 +11,18 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'jnwhiteh/vim-golang'
+Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-markdown'
 Plugin 'bling/vim-airline'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'klen/python-mode'
-Plugin 'guns/vim-clojure-static'
-Plugin 'tpope/vim-fireplace.git'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'majutsushi/tagbar'
+Plugin 'rust-lang/rust.vim'
 call vundle#end()
+
+let mapleader = ","
+
 filetype indent plugin on
 syntax on
 set background=light
@@ -64,7 +66,10 @@ let g:CSApprox_hook_post = ['hi clear SignColumn']
 cmap w!! w !sudo tee % >/dev/null
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
 let g:pymode_rope = 0 "Disable pymodes rope scripts
+
 au BufNewFile,BufRead *.rs set filetype=rust
+au BufRead,BufNewFile *.go set noet ts=4 sw=4
+
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
