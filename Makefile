@@ -2,7 +2,10 @@ all: vim zsh tmux
 
 vim:
 	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.vimrc
+	@ln -sf $(shell pwd)/vim/vim $(HOME)/.config/nvim
+	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.config/nvim/init.vim
 	@ln -sf $(shell pwd)/vim/vim $(HOME)/.vim
+
 	@echo symlinked vim files
 
 zsh:
