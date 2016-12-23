@@ -24,8 +24,13 @@ call vundle#end()
 let mapleader = ","
 
 filetype indent plugin on
+
 syntax on
+set t_Co=256
 set background=light
+let g:solarized_termcolors=16
+colorscheme solarized
+
 set hidden
 set wildmenu
 set showcmd
@@ -68,7 +73,7 @@ nnoremap <silent> <leader>tt :TagbarToggle<CR>
 let g:pymode_rope = 0 "Disable pymodes rope scripts
 
 au BufNewFile,BufRead *.rs set filetype=rust
-au BufRead,BufNewFile *.go set noet ts=4 sw=4
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
@@ -77,3 +82,5 @@ au Syntax * RainbowParenthesesLoadBraces
 set colorcolumn=80
 let g:airline_powerline_fonts = 1
 set lazyredraw
+
+let g:go_metalinter_autosave = 1

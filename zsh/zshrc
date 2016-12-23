@@ -2,6 +2,10 @@ export TERM=xterm-256color
 
 ZSH=$HOME/.zsh
 
+# Always use menu completion, and make the colors pretty!
+zstyle ':completion:*' menu select yes
+zstyle ':completion:*:default' list-colors ''
+
 autoload -Uz compinit
 compinit
 autoload -U colors && colors
@@ -20,8 +24,11 @@ source $ZSH/dstufft.zsh
 #esac
 
 
+bindkey -e
 setopt append_history       # append history list to the history file (important for multiple parallel zsh sessions!)
 setopt extended_history     # save each command's beginning timestamp and the duration to the history file
+setopt inc_append_history
+setopt share_history
 setopt histignorespace      # remove command lines from the history list when
 setopt auto_cd              # if a command is issued that can't be executed as a normal command,
 setopt extended_glob        # in order to use #, ~ and ^ for filename generation
@@ -43,10 +50,14 @@ setopt unset                # don't error out when unset parameters are used
 # PATHs
 export WORKON_HOME=$HOME/.virtualenvs
 export EDITOR="vim"
-export GOPATH=$HOME/src/repos/server/go
+export GOPATH=$HOME/src/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources
+
+export HISTFILE=~/.zhistory
+export HISTSIZE=1000000
+export SAVEHIST=1000000
 
 alias s="ssh"
 alias rsync="rsync -h --progress"
