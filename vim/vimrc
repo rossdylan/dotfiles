@@ -31,10 +31,11 @@ call vundle#end()
 let mapleader = ","
 
 filetype indent plugin on
-
 syntax on
 set t_Co=256
 
+syntax on
+set t_Co=256
 set background=light
 let g:solarized_termcolors=16
 colorscheme solarized
