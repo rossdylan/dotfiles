@@ -2,6 +2,10 @@ export TERM=xterm-256color
 
 ZSH=$HOME/.zsh
 
+# Always use menu completion, and make the colors pretty!
+zstyle ':completion:*' menu select yes
+zstyle ':completion:*:default' list-colors ''
+
 autoload -Uz compinit
 compinit
 autoload -U colors && colors
@@ -10,18 +14,11 @@ autoload -U add-zsh-hook
 source $ZSH/git.zsh
 source $ZSH/dstufft.zsh
 
-#case $(uname) in
-#    Darwin)
-#        source /usr/local/bin/virtualenvwrapper.sh
-#        ;;
-#    Linux)
-#        source /usr/bin/virtualenvwrapper.sh
-#        ;;
-#esac
 
-
-setopt append_history       # append history list to the history file (important for multiple parallel zsh sessions!)
+bindkey -e
 setopt extended_history     # save each command's beginning timestamp and the duration to the history file
+setopt inc_append_history
+setopt share_history
 setopt histignorespace      # remove command lines from the history list when
 setopt auto_cd              # if a command is issued that can't be executed as a normal command,
 setopt extended_glob        # in order to use #, ~ and ^ for filename generation
@@ -39,8 +36,6 @@ setopt noshwordsplit        # use zsh style word splitting
 setopt unset                # don't error out when unset parameters are used
 
 source $HOME/.cargo/env
-# Customize to your needs...
-# PATHs
 export WORKON_HOME=$HOME/.virtualenvs
 export EDITOR="vim"
 export GOPATH=$HOME/src/repos/server/go
