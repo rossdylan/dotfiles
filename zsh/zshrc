@@ -35,13 +35,25 @@ setopt noglobdots           # * shouldn't match dotfiles. ever.
 setopt noshwordsplit        # use zsh style word splitting
 setopt unset                # don't error out when unset parameters are used
 
+alias suritail="tail -f /usr/local/var/log/suricata/fast.log | grep '\[Priority: [1 2]\]'"
+
 source $HOME/.cargo/env
 export WORKON_HOME=$HOME/.virtualenvs
 export EDITOR="vim"
 export GOPATH=$HOME/src/repos/server/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
-export PATH=$PATH:/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources
+export PATH=$PATH:/Users/rossdylan/.cargo/bin
+export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:/Users/rossdylan/.gem/ruby/2.0.0/bin
+export PATH=/Users/rossdylan/.cargo/bin:$PATH
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/rossdylan/Projects/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/rossdylan/Projects/google-cloud-sdk/completion.zsh.inc'
+export PATH="/usr/local/sbin:$PATH"
 
 alias s="ssh"
 alias rsync="rsync -h --progress"
