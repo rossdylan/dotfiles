@@ -14,15 +14,6 @@ autoload -U add-zsh-hook
 source $ZSH/git.zsh
 source $ZSH/dstufft.zsh
 
-#case $(uname) in
-#    Darwin)
-#        source /usr/local/bin/virtualenvwrapper.sh
-#        ;;
-#    Linux)
-#        source /usr/bin/virtualenvwrapper.sh
-#        ;;
-#esac
-
 
 bindkey -e
 setopt append_history       # append history list to the history file (important for multiple parallel zsh sessions!)
@@ -46,8 +37,6 @@ setopt noshwordsplit        # use zsh style word splitting
 setopt unset                # don't error out when unset parameters are used
 
 source $HOME/.cargo/env
-# Customize to your needs...
-# PATHs
 export WORKON_HOME=$HOME/.virtualenvs
 export EDITOR="vim"
 export GOPATH=$HOME/src/go
