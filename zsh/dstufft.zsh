@@ -1,4 +1,4 @@
-ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}"
+ZSH_THEME_GIT_PROMPT_PREFIX=" %{$fg[magenta]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%}!"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[green]%}?"
@@ -9,7 +9,6 @@ setopt prompt_subst
 source $ZSH/async.zsh
 async_init
 async_start_worker prompt_worker -n
-async_register_callback prompt_worker git_info_callback
 
 
 GIT_PROMPT=''
@@ -20,12 +19,16 @@ get_git_prompt() {
 
 git_info_callback() {
     GIT_PROMPT="$3"
-    zle && zle reset-prompt
+    if [ "$6" = "0" ]
+    then
+        zle && zle reset-prompt
+    fi
 }
 
+async_register_callback prompt_worker git_info_callback
 
 async_git() {
-    async_job prompt_worker git_prompt "$(pwd)"
+    async_job prompt_worker "git_prompt $(pwd)"
 }
 
 
@@ -42,7 +45,5 @@ function virtualenv_info {
 }
 
 
-PROMPT='
-%{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}%m%{$reset_color%} in %{$fg_bold[green]%}${PWD/#$HOME/~}%{$reset_color%}$(get_git_prompt)
-$(virtualenv_info)$(prompt_char) '
+PROMPT='%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%} %{$fg_bold[green]%}${PWD/#$HOME/~}%{$reset_color%}$(get_git_prompt) $(virtualenv_info)$(prompt_char) '
 RPROMPT=''
