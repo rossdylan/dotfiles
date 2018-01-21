@@ -2,6 +2,9 @@
 " from spf13, Thanks!
 set nocompatible
 set rtp+=~/.vim/bundle/Vundle.vim
+
+let g:has_async = has('nvim') || v:version >= 800
+
 " Install plugins with vundle "
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
@@ -9,7 +12,11 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/syntastic'
+if g:has_async
+    Plugin 'w0rp/ale'
+else
+    Plugin 'scrooloose/syntastic'
+endif
 Plugin 'airblade/vim-gitgutter'
 Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-markdown'
@@ -25,6 +32,7 @@ let mapleader = ","
 
 filetype indent plugin on
 syntax on
+
 set background=light
 set hidden
 set wildmenu
@@ -48,23 +56,53 @@ set notimeout ttimeout ttimeoutlen=200
 set shiftwidth=4
 set softtabstop=4
 set expandtab
-map Y y$
-nnoremap <C-L> :nohl<CR><C-L>
-let g:syntastic_c_compiler = "clang"
-let g:syntastic_cpp_compiler = "clang++"
-set listchars=nbsp:.,eol:$,tab:>-,trail:~,extends:>,precedes:<
-set list
-hi NonText guifg=#262626 ctermfg=236
-hi SpecialKey guifg=#262626 ctermfg=236
-inoremap jj <ESC>
+set colorcolumn=100
+set lazyredraw
 set scrolloff=5 "Keep the cursor at least 5 lines from the top and bottom
 set scrolljump=0 "Keep the cursor at least 5 lines from the top and bottom
+set listchars=nbsp:.,eol:$,tab:>-,trail:~,extends:>,precedes:<
+set list
+
+
+map Y y$
+nnoremap <C-L> :nohl<CR><C-L>
+
+
+" Configure linting
+if g:has_async
+    let g:airline#extensions#ale#enabled = 1
+else
+    let g:syntastic_c_compiler = "clang"
+    let g:syntastic_cpp_compiler = "clang++"
+endif
+
+" Configure vim-go
+let g:go_auto_type_info = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 2
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+
+hi NonText guifg=#262626 ctermfg=236
+hi SpecialKey guifg=#262626 ctermfg=236
+
+inoremap jj <ESC>
+
 map <Leader>y "+y " Yank to system clipboard
+
 highlight clear SignColumn " SignColumn should match background
 highlight clear LineNr " Current line number row will have same background color in relative mode
+
 let g:CSApprox_hook_post = ['hi clear SignColumn']
+
 cmap w!! w !sudo tee % >/dev/null
+
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
+
 let g:pymode_rope = 0 "Disable pymodes rope scripts
 
 au BufNewFile,BufRead *.rs set filetype=rust
@@ -74,6 +112,6 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-set colorcolumn=80
+
 let g:airline_powerline_fonts = 1
-set lazyredraw
+
