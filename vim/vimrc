@@ -112,6 +112,8 @@ nnoremap <silent> <leader>tt :TagbarToggle<CR>
 let g:pymode_rope = 0 "Disable pymodes rope scripts
 
 au BufNewFile,BufRead *.rs set filetype=rust
+au BufNewFile,BufRead *.pyst set filetype=python
+au BufNewFile,BufRead *.pyst-include set filetype=python
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
 au VimEnter * RainbowParenthesesToggle

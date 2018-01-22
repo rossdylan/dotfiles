@@ -14,7 +14,6 @@ autoload -U add-zsh-hook
 source $ZSH/git.zsh
 source $ZSH/dstufft.zsh
 
-
 bindkey -e
 setopt append_history       # append history list to the history file (important for multiple parallel zsh sessions!)
 setopt extended_history     # save each command's beginning timestamp and the duration to the history file
@@ -49,13 +48,16 @@ export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:$HOME/bin
 
 export HISTFILE=~/.zhistory
-export HISTSIZE=1000000
-export SAVEHIST=1000000
+export HISTSIZE=100000
+export SAVEHIST=100000
 
 alias s="ssh"
 alias rsync="rsync -h --progress"
 alias irc="ssh -t losna 'screen -dx'"
 
+alias msh="ssh shelby -t -- msh"
+alias gsh="ssh shelby -t -- gsh"
+alias wtfis="ssh shelby -- wtfis"
 
 # simple webserver
 function server() {
