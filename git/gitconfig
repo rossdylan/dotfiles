@@ -1,0 +1,8 @@
+[user]
+    name = Ross Delinger
+[push]
+    default = simple
+[init]
+    templatedir = ~/.git_template
+[alias]
+    ctags = !.git/hooks/ctags
