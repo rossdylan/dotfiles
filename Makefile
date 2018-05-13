@@ -10,7 +10,7 @@ vim:
 
 zsh:
 	mkdir -p $(HOME)/.zsh
-	@ln -sf $(shell pwd)/zsh/zshrc $(HOME)/.zsh/
+	@ln -sf $(shell pwd)/zsh/zshrc $(HOME)/.zshrc
 	@ln -sf $(shell pwd)/zsh/*.zsh $(HOME)/.zsh/
 	@echo symlinked .zshrc
 
