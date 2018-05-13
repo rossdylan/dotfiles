@@ -16,6 +16,7 @@ source $ZSH/dstufft.zsh
 
 
 bindkey -e
+setopt append_history
 setopt extended_history     # save each command's beginning timestamp and the duration to the history file
 setopt inc_append_history
 setopt share_history
@@ -35,13 +36,17 @@ setopt noglobdots           # * shouldn't match dotfiles. ever.
 setopt noshwordsplit        # use zsh style word splitting
 setopt unset                # don't error out when unset parameters are used
 
+export HISTFILE=$HOME/.zhistory
+export HISTSIZE=100000
+export SAVEHIST=100000
+
 source $HOME/.cargo/env
 export WORKON_HOME=$HOME/.virtualenvs
 export EDITOR="vim"
 export GOPATH=$HOME/src/repos/server/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
-export PATH=$PATH:/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources
+export PATH=$PATH:$HOME/bin
 
 alias s="ssh"
 alias rsync="rsync -h --progress"
