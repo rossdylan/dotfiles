@@ -15,7 +15,7 @@ Plugin 'kien/ctrlp.vim'
 if g:has_async
     Plugin 'w0rp/ale'
 else
-    Plugin 'scrooloose/syntastic'
+    Plugin 'vim-syntastic/syntastic'
 endif
 Plugin 'airblade/vim-gitgutter'
 Plugin 'fatih/vim-go'
