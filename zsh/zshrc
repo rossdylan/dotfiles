@@ -39,13 +39,19 @@ export HISTFILE=$HOME/.zhistory
 export HISTSIZE=100000
 export SAVEHIST=100000
 
-source $HOME/.cargo/env
 export WORKON_HOME=$HOME/.virtualenvs
 export EDITOR="vim"
-export GOPATH=$HOME/src/go
+
+export GOROOT=$HOME/bin/go
+export GOPATH=$HOME/src/local_gopath:$HOME/src/server/go
+export PYTHONPATH=$PYTHONPATH:$HOME/src/server
+
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/bin/go/bin
+export PATH=$PATH:$HOME/src/local_gopath/bin
+export PATH=$PATH:$HOME/src/engtools/bin
 
 export HISTFILE=~/.zhistory
 export HISTSIZE=100000
