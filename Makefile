@@ -1,11 +1,15 @@
-all: vim zsh tmux
+all: vim nvim zsh tmux
+
+nvim:
+	@mkdir -p $(HOME)/.config/nvim
+	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.config/nvim/init.vim
+	@ln -sf $(shell pwd)/vim/vim/autoload $(HOME)/.config/nvim/autoload
+	@ echo symlinked nvim files
 
 vim:
+	@mkdir -p $(HOME)/.vim
 	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.vimrc
-	@ln -sf $(shell pwd)/vim/vim $(HOME)/.config/nvim
-	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.config/nvim/init.vim
-	@ln -sf $(shell pwd)/vim/vim $(HOME)/.vim
-
+	@ln -sf $(shell pwd)/vim/vim/autoload $(HOME)/.vim/autoload
 	@echo symlinked vim files
 
 zsh:
@@ -25,4 +29,4 @@ clean:
 	rm -rf $(HOME)/.oh-my-zsh
 	rm -rf $(HOME)/.tmux.conf
 
-.PHONY: vim zsh tmux clean
+.PHONY: vim nvim zsh tmux clean

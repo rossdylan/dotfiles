@@ -1,38 +1,55 @@
-" Most of this is stolen from eatnumber ehouse and ryansb, with some stuff
-" from spf13, Thanks!
-set nocompatible
-set rtp+=~/.vim/bundle/Vundle.vim
+" Originally a mishmash of the configs of eatnumber1, ehouse, ryansb, and
+" spf13. Now its even more muddled with snippets from across the internet
+" Thank You All
 
+set nocompatible
 let g:has_async = has('nvim') || v:version >= 800
 
-" Install plugins with vundle "
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
-if g:has_async
-    Plugin 'w0rp/ale'
-else
-    Plugin 'scrooloose/syntastic'
-endif
-Plugin 'airblade/vim-gitgutter'
-Plugin 'fatih/vim-go'
-Plugin 'tpope/vim-markdown'
-Plugin 'bling/vim-airline'
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'klen/python-mode'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'rust-lang/rust.vim'
-call vundle#end()
+" Install plugins with plug
+call plug#begin('~/.vim/plugged')
 
-let mapleader = ","
+" Git Support
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Make it Pretty
+Plug 'altercation/vim-colors-solarized'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'vim-airline/vim-airline'
+
+Plug 'scrooloose/nerdtree'
+Plug 'kien/ctrlp.vim'
+Plug 'majutsushi/tagbar'
+
+" Syntax and linting
+if g:has_async
+    Plug 'dense-analysis/ale'
+else
+    Plug 'scrooloose/syntastic'
+endif
+
+" Language support
+Plug 'fatih/vim-go'
+Plug 'tpope/vim-markdown'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'rust-lang/rust.vim'
+Plug 'slashmili/alchemist.vim'
+Plug 'elixir-editors/vim-elixir'
+
+" Autocomplete
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'rosma/nvim-yarp'
+    Plug 'rosma/vim-hug-neovim-rpc'
+endif
+call plug#end()
+
 
 filetype indent plugin on
 syntax on
-
 set background=light
 set hidden
 set wildmenu
@@ -64,20 +81,56 @@ set listchars=nbsp:.,eol:$,tab:>-,trail:~,extends:>,precedes:<
 set list
 
 
+" Key Remapping
+let mapleader = ","
 map Y y$
 nnoremap <C-L> :nohl<CR><C-L>
+inoremap jj <ESC>
+map <Leader>y "+y " Yank to system clipboard
+nnoremap <silent> <leader>tt :TagbarToggle<CR>
+cmap w!! w !sudo tee % >/dev/null
 
 
-" Configure linting
+" Configure linting, if we have async support configure ale, otherwise
+" configure syntastic
 if g:has_async
     let g:airline#extensions#ale#enabled = 1
+    let g:ale_linters = {
+    \   'go': ['gopls'],
+    \   'elixir': ['elixir-ls']
+    \}
+    let g:ale_fixers = { 'elixir': ['mix_format'] }
+    let g:ale_elixir_elixir_ls_release='/home/rossdylan/src/external/elixir-ls/release'
 else
     let g:syntastic_c_compiler = "clang"
     let g:syntastic_cpp_compiler = "clang++"
 endif
 
+
+" Configure deoplete (autocomplete framework)
+" Tell deoplete to use vim-go's omni complete with go files
+call deoplete#custom#option('omni_patterns', {
+\ 'go': '[^. *\t]\.\w*',
+\})
+" Turn on deoplete, but disable autocomplete
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('auto_complete', 0)
+" Setup tab complete instead
+function! s:check_back_space() abort "{{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1] =~ '\s'
+endfunction"}}}
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \deoplete#manual_complete()
+
+
+" Configure Airline
+let g:airline_powerline_fonts = 1
+
+
 " Configure vim-go
-let g:go_auto_type_info = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 2
@@ -87,31 +140,27 @@ let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
 
-hi NonText guifg=#262626 ctermfg=236
-hi SpecialKey guifg=#262626 ctermfg=236
 
-inoremap jj <ESC>
-
-map <Leader>y "+y " Yank to system clipboard
-
-highlight clear SignColumn " SignColumn should match background
-highlight clear LineNr " Current line number row will have same background color in relative mode
-
-let g:CSApprox_hook_post = ['hi clear SignColumn']
-
-cmap w!! w !sudo tee % >/dev/null
-
-nnoremap <silent> <leader>tt :TagbarToggle<CR>
-
+" Configure python-mode
 let g:pymode_rope = 0 "Disable pymodes rope scripts
 
+
+" Make git-gutter work correctly
+hi NonText guifg=#262626 ctermfg=236
+hi SpecialKey guifg=#262626 ctermfg=236
+highlight clear SignColumn " SignColumn should match background
+highlight clear LineNr " Current line number row will have same background color in relative mode
+let g:CSApprox_hook_post = ['hi clear SignColumn']
+
+
+" File type overwrites
 au BufNewFile,BufRead *.rs set filetype=rust
 au BufRead,BufNewFile *.go set noet ts=4 sw=4
 
+
+" Configure RainbowParentheses
+let g:rainbow_active = 1
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-
-let g:airline_powerline_fonts = 1
-
