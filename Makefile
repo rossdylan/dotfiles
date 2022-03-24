@@ -1,10 +1,10 @@
-all: vim zsh tmux ctags git
+all: vim zsh tmux git
 
 vim:
 	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.vimrc
-	@ln -sf $(shell pwd)/vim/vim $(HOME)/.config/nvim
-	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.config/nvim/init.vim
 	@ln -sf $(shell pwd)/vim/vim $(HOME)/.vim
+	@mkdir -p $(HOME)/.config/nvim
+	@ln -sf $(shell pwd)/vim/vimrc $(HOME)/.config/nvim/init.vim
 
 	@echo symlinked vim files
 
@@ -18,12 +18,7 @@ tmux:
 	@ln -sf $(shell pwd)/tmux/tmux.conf $(HOME)/.tmux.conf
 	@echo symlinked tmux files
 
-ctags:
-	@ln -sf $(shell pwd)/ctags/ctags $(HOME)/.ctags
-	@echo symlinked ctags file
-
 git:
-	@ln -sf $(shell pwd)/git/git_template $(HOME)/.git_template
 	@ln -sf $(shell pwd)/git/gitconfig $(HOME)/.gitconfig
 	@echo symlinked git files
 
@@ -37,4 +32,4 @@ clean:
 	rm -rf $(HOME)/.gitconfig
 	rm -rf $(HOME)/.git_template
 
-.PHONY: vim zsh tmux git ctags clean
+.PHONY: vim zsh tmux git clean

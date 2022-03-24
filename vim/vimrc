@@ -1,33 +1,34 @@
 " Most of this is stolen from eatnumber ehouse and ryansb, with some stuff
 " from spf13, Thanks!
 set nocompatible
-set rtp+=~/.vim/bundle/Vundle.vim
 
 let g:has_async = has('nvim') || v:version >= 800
 
-" Install plugins with vundle "
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-fugitive'
+Plug 'altercation/vim-colors-solarized'
+Plug 'scrooloose/nerdtree'
+Plug 'kien/ctrlp.vim'
 if g:has_async
-    Plugin 'w0rp/ale'
-else
-    Plugin 'scrooloose/syntastic'
+    Plug 'dense-analysis/ale'
 endif
-Plugin 'airblade/vim-gitgutter'
-Plugin 'fatih/vim-go'
-Plugin 'tpope/vim-markdown'
-Plugin 'bling/vim-airline'
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'klen/python-mode'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'rust-lang/rust.vim'
-call vundle#end()
-
+Plug 'airblade/vim-gitgutter'
+Plug 'fatih/vim-go'
+Plug 'tpope/vim-markdown'
+Plug 'bling/vim-airline'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'majutsushi/tagbar'
+Plug 'rust-lang/rust.vim'
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'rosma/vim-hug-neovim-rpc'
+endif
+call plug#end()
+let g:deoplete#enable_at_startup = 1
 let mapleader = ","
 
 filetype indent plugin on
