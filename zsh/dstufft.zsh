@@ -17,11 +17,23 @@ get_git_prompt() {
 }
 
 
+# $1 job name
+# $2 return code
+# $3 stdout
+# $4 execution time
+# $5 stderr
+# $6 1/0 has next result in buffer
 git_info_callback() {
-    GIT_PROMPT="$3"
-    if [ "$6" = "0" ]
+    if [[ "$1" == "[async]" || "$1" == "async" ]]
     then
-        zle && zle reset-prompt
+        async_stop_worker prompt_worker
+        async_start_worker prompt_worker -n
+    else
+        GIT_PROMPT="$3"
+        if [ "$6" = "0" ]
+        then
+            zle && zle reset-prompt
+        fi
     fi
 }
 
